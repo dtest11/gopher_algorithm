@@ -32,6 +32,7 @@ type Record struct {
 
 func frequencySort(s string) string {
 	// a  Ascall=97, z=112
+	var records []Record
 
 	var allKeys []rune
 	var exist = make(map[rune]int)
@@ -45,7 +46,7 @@ func frequencySort(s string) string {
 		}
 	}
 
-	//sort record accord ascall code value
+	//sort records accord ascall code value
 	for i := 0; i < len(allKeys); i++ {
 		for j := i + 1; j < len(allKeys) && j-1 >= 0; j-- {
 			if allKeys[j-1] < allKeys[j] {
@@ -55,26 +56,25 @@ func frequencySort(s string) string {
 			}
 		}
 	}
-	var record []Record
 	for _, v := range allKeys {
 		t := Record{
 			Key:     v,
 			Counter: exist[v],
 		}
-		record = append(record, t)
+		records = append(records, t)
 	}
-	//sort record
-	for i := 0; i < len(record); i++ {
-		for j := i + 1; j < len(record) && j-1 >= 0; j-- {
-			if record[j-1].Counter >= record[j].Counter {
+	//sort records
+	for i := 0; i < len(records); i++ {
+		for j := i + 1; j < len(records) && j-1 >= 0; j-- {
+			if records[j-1].Counter >= records[j].Counter {
 				break // sorted
 			} else {
-				record[j-1], record[j] = record[j], record[j-1]
+				records[j-1], records[j] = records[j], records[j-1]
 			}
 		}
 	}
 	var result string
-	for _, v := range record {
+	for _, v := range records {
 		counter := v.Counter
 		tmp := ""
 		for i := 0; i < counter; i++ {

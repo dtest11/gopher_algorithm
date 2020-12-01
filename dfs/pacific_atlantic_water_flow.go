@@ -25,6 +25,11 @@ Return:
 https://www.youtube.com/watch?v=blOc3KlAR2I
 https://leetcode.com/problems/pacific-atlantic-water-flow/
 
+
+
+X,Y轴结合分析
+
+
 **/
 
 func pacificAtlantic(matrix [][]int) [][]int {
@@ -32,29 +37,29 @@ func pacificAtlantic(matrix [][]int) [][]int {
 	if matrix == nil || len(matrix[0]) == 0 {
 		return result
 	}
-	n := len(matrix[0])
-	m := len(matrix)
-	pacific := make([][]bool, m)
-	for i := 0; i < m; i++ {
-		pacific[i] = make([]bool, n)
+	colN := len(matrix[0])
+	rowN := len(matrix)
+	pacific := make([][]bool, rowN)
+	for i := 0; i < rowN; i++ {
+		pacific[i] = make([]bool, rowN)
 	}
-	atlantic := make([][]bool, m)
-	for i := 0; i < m; i++ {
-		atlantic[i] = make([]bool, n)
+	atlantic := make([][]bool, rowN)
+	for i := 0; i < rowN; i++ {
+		atlantic[i] = make([]bool, colN)
 	}
 	// top 	and bottom
-	for col := 0; col < n-1; col++ {
-		pacificAtlantaDFS(matrix, col, 0, matrix[0][col], pacific)
-		pacificAtlantaDFS(matrix, col, 0, matrix[0][col], atlantic)
+	for col := 0; col < colN-1; col++ {
+		pacificAtlantaDFS(matrix, 0, col, matrix[0][col], pacific)          //top
+		pacificAtlantaDFS(matrix, rowN-1, col, matrix[0][rowN-1], atlantic) // bottom
 	}
 
-	// left to right
-	for row := 0; row < m-1; row++ { //行
-		pacificAtlantaDFS(matrix, 0, row, matrix[0][row], pacific)
-		pacificAtlantaDFS(matrix, 0, row, matrix[0][row], atlantic)
+	// left And right
+	for row := 0; row < rowN-1; row++ { //行
+		pacificAtlantaDFS(matrix, row, 0, matrix[row][0], pacific)            //left
+		pacificAtlantaDFS(matrix, row, colN-1, matrix[row][colN-1], atlantic) // right
 	}
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
+	for i := 0; i < rowN; i++ {
+		for j := 0; j < colN; j++ {
 			if pacific[i][j] && atlantic[i][j] {
 				tmp := [][]int{{i, j}}
 				result = append(result, tmp...)
@@ -65,15 +70,18 @@ func pacificAtlantic(matrix [][]int) [][]int {
 }
 
 // col 列， row行
-func pacificAtlantaDFS(matrix [][]int, col int, row int, preHeight int, ocean [][]bool) {
-	if row > len(matrix)-1 || row < 0 ||
-		col > len(matrix[0])-1 || col < 0 ||
-		matrix[row][col] < preHeight || ocean[row][col] {
+func pacificAtlantaDFS(matrix [][]int, row int, col int, preHeight int, ocean [][]bool) {
+	if row > len(matrix)-1 ||
+		row < 0 ||
+		col > len(matrix[0])-1 ||
+		col < 0 ||
+		matrix[row][col] < preHeight ||
+		ocean[row][col] {
 		return
 	}
 	ocean[row][col] = true
-	pacificAtlantaDFS(matrix, col, row+1, matrix[row][col], ocean)
-	pacificAtlantaDFS(matrix, col, row-1, matrix[row][col], ocean)
-	pacificAtlantaDFS(matrix, col+1, row-1, matrix[row][col], ocean)
-	pacificAtlantaDFS(matrix, col-1, row-1, matrix[row][col], ocean)
+	pacificAtlantaDFS(matrix, row+1, col, matrix[row][col], ocean)
+	pacificAtlantaDFS(matrix, row-1, col, matrix[row][col], ocean)
+	pacificAtlantaDFS(matrix, row, col+1, matrix[row][col], ocean)
+	pacificAtlantaDFS(matrix, row, col-1, matrix[row][col], ocean)
 }

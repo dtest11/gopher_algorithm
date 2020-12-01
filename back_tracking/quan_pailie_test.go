@@ -21,6 +21,8 @@ func Test_permute1(t *testing.T) {
 	// push element into list
 	alist.PushBack("a")
 	alist.PushBack("b")
+
+	
 	alist.PushBack("c")
 
 	fmt.Println("Size after insert(push): ", alist.Len()) // list size after

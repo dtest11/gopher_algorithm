@@ -14,18 +14,13 @@ func quick1(array []int, low, high int) []int {
 }
 
 func partition(array []int, low int, high int) int {
-	pivot := array[low]
-	for low < high {
-		for low < high && pivot < array[high] {
-			high--
-		}
-		array[low] = array[high]
-		for low < high && pivot > array[low] {
+	pivot := array[high]
+	for j := low; j < high; j++ {
+		if array[j] < pivot {
+			array[j], array[low] = array[low], array[j]
 			low++
 		}
-		array[high] = array[low]
 	}
-
-	array[low] = pivot
+	array[low], array[high] = array[high], array[low]
 	return low
 }

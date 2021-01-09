@@ -10,3 +10,11 @@ func Test_combinationSum2(t *testing.T) {
 	result := combinationSum2(input, target)
 	t.Log(result)
 }
+
+
+func Test_isAdditiveNumber(t *testing.T) {
+	//input := "112358"
+	input := "112"
+	result := isAdditiveNumber(input)
+	t.Log(result)
+}

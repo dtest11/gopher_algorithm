@@ -13,25 +13,7 @@ func sortAnswer(data []int) []int {
 	}
 	return data
 }
-func twoSum(nums []int, target int) []int {
-	data := sort(nums)
-	for i, j := 0, len(nums)-1; i < j; {
-		a := data[i].ele
-		b := data[j].ele
-		if a+b > target {
-			j--
-			continue
-		} else if a+b < target {
-			i++
-			continue
-		} else {
-			res := sortAnswer([]int{data[i].Index, data[j].Index})
-			return res
-		}
-	}
-	return nil
 
-}
 
 func sort(array []int) []pair {
 	var result []pair
@@ -50,4 +32,25 @@ func sort(array []int) []pair {
 		}
 	}
 	return result
+}
+
+
+func twoSum(nums []int, target int) []int {
+	data := sort(nums)
+	for i, j := 0, len(nums)-1; i < j; {
+		a := data[i].ele
+		b := data[j].ele
+		if a+b > target {
+			j--
+			continue
+		} else if a+b < target {
+			i++
+			continue
+		} else {
+			res := sortAnswer([]int{data[i].Index, data[j].Index})
+			return res
+		}
+	}
+	return nil
+
 }
